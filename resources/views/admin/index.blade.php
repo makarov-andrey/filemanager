@@ -28,7 +28,7 @@
                                     <td class="table-text">{{ $file->updated_at }}</td>
 
                                     <td>
-                                        <a href="{{ route('file.download', $file) }}" class="btn btn-default">
+                                        <a href="{{ $file->downloadLink() }}" class="btn btn-default">
                                             Download
                                         </a>
                                     </td>

@@ -49,15 +49,28 @@ class File extends Model
      *
      * @return mixed
      */
-    public function getContent()
+    public function content()
     {
         return Storage::get($this->path());
+    }
+
+    /**
+     * Возвращает ссылку для скачивания файла
+     *
+     * @return string
+     */
+    public function downloadLink()
+    {
+        return route('file.download', [$this->visitor_hash, $this->code]);
     }
 
     public function save(array $options = [])
     {
         if (empty($this->code)) {
             $this->code = str_random(64);
+        }
+        if (empty($this->visitor_hash)) {
+            $this->visitor_hash = md5(session()->getId());
         }
         if ($this->uploadedFile) {
             $this->uploadedFile->storeAs(static::STORAGE_PATH, $this->code);

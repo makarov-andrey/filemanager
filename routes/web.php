@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'FileController@uploadForm')->name('index');
 Route::post('/load', 'FileController@upload')->name('file.upload');
-Route::get('/uploaded/{file}', 'FileController@download')->name('file.download');
+Route::get('/uploaded/{visitor_hash}/{code}', 'FileController@download')->name('file.download');
 
 Route::get('/admin', 'AdminController@index')->name('admin.index');
 Route::get('/admin/file/{file}', 'AdminController@editFileForm')->name('admin.file.edit.form');

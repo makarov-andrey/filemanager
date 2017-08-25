@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="form-group">
-                        <a href="{{ route('file.download', $file) }}" class="btn btn-default">Download</a>
+                        <a href="{{ $file->downloadLink() }}" class="btn btn-default">Download</a>
                     </div>
 
                     <div class="form-group">

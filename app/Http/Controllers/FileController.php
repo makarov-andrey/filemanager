@@ -36,9 +36,13 @@ class FileController extends Controller
         return redirect()->back()->with('success', Lang::get('file.success_loading'));
     }
 
-    public function download(File $file)
+    public function download(string $visitorHash, string $code)
     {
-        return response($file->getContent(), 200)
+        $file = File::where('visitor_hash', $visitorHash)
+            ->where('code', $code)
+            ->firstOrFail();
+
+        return response($file->content(), 200)
             ->header('Content-Description', 'File Transfer')
             ->header('Content-Type', 'application/octet-stream')
             ->header('Content-Disposition', 'attachment; filename="' . addslashes($file->name) . '"')
