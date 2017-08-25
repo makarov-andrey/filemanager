@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Storage;
 
 class File extends Model
 {
+    protected $primaryKey = 'code';
+
+    public $incrementing = false;
+
     const STORAGE_PATH = 'files/';
 
     /**
@@ -23,7 +27,6 @@ class File extends Model
     public function associateWithRequestFile(UploadedFile $uploadedFile)
     {
         $this->uploadedFile = $uploadedFile;
-        $this->hash = md5(file_get_contents($this->uploadedFile->getRealPath()));
         $this->name = $uploadedFile->getClientOriginalName();
     }
 
@@ -34,7 +37,7 @@ class File extends Model
      */
     public function path()
     {
-        return static::STORAGE_PATH . $this->hash;
+        return static::STORAGE_PATH . $this->code;
     }
 
     /**
@@ -49,8 +52,11 @@ class File extends Model
 
     public function save(array $options = [])
     {
+        if (empty($this->code)) {
+            $this->code = str_random(64);
+        }
         if ($this->uploadedFile) {
-            $this->uploadedFile->storeAs($this->storagePath, $this->hash);
+            $this->uploadedFile->storeAs(static::STORAGE_PATH, $this->code);
         }
 
         return parent::save($options);
@@ -61,15 +67,5 @@ class File extends Model
         Storage::delete($this->path());
 
         return parent::delete($options);
-    }
-
-    /**
-     * Получить ключ маршрута для модели.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'hash';
     }
 }

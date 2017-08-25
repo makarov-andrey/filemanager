@@ -26,6 +26,7 @@ class FileController extends Controller
         $file = new File();
         $file->associateWithRequestFile($request->file('file'));
         $file->description = $request->description;
+        $file->email = $request->email;
         $file->save();
 
         Mail::send('emails.file', ['file' => $file], function ($m) use ($request) {
