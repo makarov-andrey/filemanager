@@ -6,7 +6,7 @@
             @include('common.errors')
             @include('common.success')
             <div class="col-md-8 col-md-offset-2">
-                <form action="{{ url('load') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('file.upload') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="form-group">

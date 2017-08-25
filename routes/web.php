@@ -14,10 +14,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', 'FileController@form');
-Route::post('/load', 'FileController@load');
-Route::get('/uploaded/{file}', 'FileController@download');
+Route::get('/', 'FileController@uploadForm')->name('index');
+Route::post('/load', 'FileController@upload')->name('file.upload');
+Route::get('/uploaded/{file}', 'FileController@download')->name('file.download');
 
-Auth::routes();
+Route::get('/admin', 'AdminController@index')->name('admin.files');
+Route::get('/admin/file/{file}', 'AdminController@editFileForm')->name('admin.file.edit.form');
+Route::post('/admin/file/{file}', 'AdminController@editFile')->name('admin.file.edit');
+Route::delete('/admin/file/{file}', 'AdminController@destroy')->name('admin.file.remove');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('admin/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('admin/login', 'Auth\LoginController@login');
+Route::post('admin/logout', 'Auth\LoginController@logout')->name('logout');

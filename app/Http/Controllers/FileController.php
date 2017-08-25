@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    public function form()
+    public function uploadForm()
     {
-        return view('form');
+        return view('upload');
     }
 
-    public function load(Request $request)
+    public function upload(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|email',
@@ -38,10 +38,8 @@ class FileController extends Controller
 
     public function download(File $file)
     {
-        $content = Storage::disk('local')->get($file->path());
         return view('download', [
-            'file' => $file,
-            'content' => $content
+            'file' => $file
         ]);
     }
 }

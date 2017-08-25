@@ -8,13 +8,18 @@ use Illuminate\Support\Facades\Storage;
 
 class File extends Model
 {
-    protected $storagePath = 'files/';
+    const STORAGE_PATH = 'files/';
 
     /**
      * @var UploadedFile
      */
     protected $uploadedFile;
 
+    /**
+     * Ассоциировать экземпляр с файлом из реквеста
+     *
+     * @param UploadedFile $uploadedFile
+     */
     public function associateWithRequestFile(UploadedFile $uploadedFile)
     {
         $this->uploadedFile = $uploadedFile;
@@ -22,16 +27,40 @@ class File extends Model
         $this->name = $uploadedFile->getClientOriginalName();
     }
 
+    /**
+     * Получить путь к файлу в хранилище
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return static::STORAGE_PATH . $this->hash;
+    }
+
+    /**
+     * получить контент файла
+     *
+     * @return mixed
+     */
+    public function getContent()
+    {
+        return Storage::get($this->path());
+    }
+
     public function save(array $options = [])
     {
-        $this->uploadedFile->storeAs($this->storagePath, $this->hash);
+        if ($this->uploadedFile) {
+            $this->uploadedFile->storeAs($this->storagePath, $this->hash);
+        }
 
         return parent::save($options);
     }
 
-    public function path()
+    public function delete(array $options = [])
     {
-        return $this->storagePath . $this->hash;
+        Storage::delete($this->path());
+
+        return parent::delete($options);
     }
 
     /**
