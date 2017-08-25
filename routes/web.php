@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'FileController@form');
 Route::post('/load', 'FileController@load');
+Route::get('/uploaded/{file}', 'FileController@download');
 
 Auth::routes();
 
