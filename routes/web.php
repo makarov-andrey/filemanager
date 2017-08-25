@@ -18,7 +18,7 @@ Route::get('/', 'FileController@uploadForm')->name('index');
 Route::post('/load', 'FileController@upload')->name('file.upload');
 Route::get('/uploaded/{file}', 'FileController@download')->name('file.download');
 
-Route::get('/admin', 'AdminController@index')->name('admin.files');
+Route::get('/admin', 'AdminController@index')->name('admin.index');
 Route::get('/admin/file/{file}', 'AdminController@editFileForm')->name('admin.file.edit.form');
 Route::post('/admin/file/{file}', 'AdminController@editFile')->name('admin.file.edit');
 Route::delete('/admin/file/{file}', 'AdminController@destroy')->name('admin.file.remove');

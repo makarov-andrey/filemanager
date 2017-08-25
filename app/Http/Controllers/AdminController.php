@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\Http\Middleware\CheckAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(CheckAdmin::class);
+    }
+
     public function index()
     {
         return view('admin.index', [
@@ -40,6 +47,6 @@ class AdminController extends Controller
         $file->description = $request->description;
         $file->save();
 
-        return redirect()->route('admin.files')->with('success', Lang::get('file.successful_save'));
+        return redirect()->route('admin.index')->with('success', Lang::get('file.successful_save'));
     }
 }
