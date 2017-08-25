@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,6 +13,9 @@ class File extends Model
 
     public $incrementing = false;
 
+    /**
+     * Путь до файлов в хранилище
+     */
     const STORAGE_PATH = 'files/';
 
     /**
@@ -20,11 +24,11 @@ class File extends Model
     protected $uploadedFile;
 
     /**
-     * Ассоциировать экземпляр с файлом из реквеста
+     * переназначить файл
      *
      * @param UploadedFile $uploadedFile
      */
-    public function associateWithRequestFile(UploadedFile $uploadedFile)
+    public function resetFile(UploadedFile $uploadedFile)
     {
         $this->uploadedFile = $uploadedFile;
         $this->name = $uploadedFile->getClientOriginalName();

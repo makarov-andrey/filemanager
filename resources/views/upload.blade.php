@@ -3,8 +3,6 @@
 @section('content')
     <div class="container">
         <div class="row">
-            @include('common.errors')
-            @include('common.success')
             <div class="col-md-8 col-md-offset-2">
                 <form action="{{ route('file.upload') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}

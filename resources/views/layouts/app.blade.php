@@ -29,7 +29,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name') }}
                     </a>
                 </div>
 
@@ -71,6 +71,9 @@
                 </div>
             </div>
         </nav>
+
+        @include('common.errors')
+        @include('common.success')
 
         @yield('content')
     </div>

@@ -3,7 +3,6 @@
 @section('content')
     <div class="container">
         <div class="row">
-            @include('common.errors')
             <div class="col-md-8 col-md-offset-2">
                 <form action="{{ route('admin.file.edit', $file) }}" method="POST">
                     {{ csrf_field() }}
