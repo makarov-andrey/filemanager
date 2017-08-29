@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 /.idea
+/composer.lock
 /.vagrant
 Homestead.json
 Homestead.yaml
