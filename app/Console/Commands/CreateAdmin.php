@@ -57,7 +57,7 @@ class CreateAdmin extends Command
             $this->user = new User();
             $this->user->email = $email;
             $this->user->name = $this->askNameRecursively();
-            $this->user->password = $this->askSecretPasswordRecursively();
+            $this->user->password = bcrypt($this->askSecretPasswordRecursively());
         }
 
         $this->user->admin = true;
