@@ -93,4 +93,9 @@ class CreateAdmin extends Command
         $confirmedPassword = $this->secret(Lang::get('create_admin_command.ask_password_again'));
         return $password;
     }
+
+    protected function CLI ()
+    {
+        return $this;
+    }
 }
