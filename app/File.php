@@ -70,7 +70,7 @@ class File extends Model
             $this->code = str_random(64);
         }
         if (empty($this->visitor_hash)) {
-            $this->visitor_hash = md5(session()->getId());
+            $this->visitor_hash = bcrypt(session()->getId());
         }
         if ($this->uploadedFile) {
             $this->uploadedFile->storeAs(static::STORAGE_PATH, $this->code);

@@ -27,6 +27,7 @@ $factory->define(App\File::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->safeEmail,
+        'visitor_hash' => bcrypt(str_random(32)),
         'description' => $faker->text(1000)
     ];
 });
