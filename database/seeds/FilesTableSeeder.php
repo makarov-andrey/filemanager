@@ -16,33 +16,61 @@ class FilesTableSeeder extends Seeder
     use Overwrite;
 
     /**
+     * количество записей, которые будут записаны за один запрос к БД
+     *
+     * @var int
+     */
+    protected $tick = 1000;
+
+    /**
      * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $monitor = new Monitor($this->CLI());
-
         $amount = $this->askAmountRecursively();
-        $tick = 1000;
         $recorded = 0;
 
+        $monitor = new Monitor($this->CLI());
         $monitor->track();
 
         $bar = $this->CLI()->getOutput()->createProgressBar($amount);
         $bar->start();
 
         while ($recorded < $amount) {
-            $times = min($amount - $recorded, $tick);
-            factory(File::class, $times)->create();
-            $recorded += $times;
-
+            $times = min($amount - $recorded, $this->tick);
+            $this->singleInsertingSeed($times);
             $this->caretUp(3);
             $monitor->track();
             $bar->advance($times);
+
+            $recorded += $times;
         }
         $this->caretDown();
+    }
+
+    /**
+     * Сохраняет несколько фейковых записей одним запросом к БД
+     *
+     * @param int $times
+     */
+    protected function multipleInsertingSeed(int $times)
+    {
+        File::insert(array_map(function () {
+            return factory(File::class)->raw();
+        }, range(1, $times)));
+    }
+
+    /**
+     * Сохраняет несколько фейковых записей,
+     * генерируя по запросу к БД на каждую запись
+     *
+     * @param int $times
+     */
+    protected function singleInsertingSeed(int $times)
+    {
+        factory(File::class, $times)->create();
     }
 
     /**
@@ -51,11 +79,11 @@ class FilesTableSeeder extends Seeder
      *
      * @return integer
      */
-    public function askAmount ()
+    public function askAmount()
     {
-        $amount = $this->CLI()->ask("How many fakes do you wanna record?", 5000000);
+        $amount = $this->CLI()->ask("How many fake files do you want to store?", 5000000);
         Validator::make(['amount' => $amount], ['amount' => 'integer'])->validate();
-        return (int) $amount;
+        return (int)$amount;
     }
 
     /**

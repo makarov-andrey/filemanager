@@ -25,6 +25,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\File::class, function (Faker\Generator $faker) {
     return [
+        'code' => str_random(64),
         'name' => $faker->name,
         'email' => $faker->safeEmail,
         'visitor_hash' => bcrypt(str_random(32)),
