@@ -26,3 +26,7 @@ Route::delete('/admin/file/{file}', 'AdminController@destroy')->name('admin.file
 Route::get('admin/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('admin/login', 'Auth\LoginController@login');
 Route::post('admin/logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('angular', function(){
+    return view('app');
+});
