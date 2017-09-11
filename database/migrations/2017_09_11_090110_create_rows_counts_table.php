@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FilesVisitorHashLength extends Migration
+class CreateRowsCountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class FilesVisitorHashLength extends Migration
      */
     public function up()
     {
-        Schema::table('files', function (Blueprint $table) {
-            $table->string('visitor_hash', 60)->change();
+        Schema::create('rows_counts', function (Blueprint $table) {
+            $table->string('table_name')->primary();
+            $table->integer('count')->default(0);
         });
     }
 
@@ -25,8 +26,6 @@ class FilesVisitorHashLength extends Migration
      */
     public function down()
     {
-        Schema::table('files', function (Blueprint $table) {
-            $table->string('visitor_hash', 32)->change();
-        });
+        Schema::dropIfExists('rows_counts');
     }
 }

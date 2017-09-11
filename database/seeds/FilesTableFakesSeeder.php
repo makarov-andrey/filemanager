@@ -10,7 +10,7 @@ use App\Console\Helpers\Overwrite;
 /**
  * @method askAmountRecursively()
  */
-class FilesTableSeeder extends Seeder
+class FilesTableFakesSeeder extends Seeder
 {
     use OverloadingRecursivelyDialogs;
     use Overwrite;
@@ -40,7 +40,7 @@ class FilesTableSeeder extends Seeder
 
         while ($recorded < $amount) {
             $times = min($amount - $recorded, $this->tick);
-            $this->singleInsertingSeed($times);
+            $this->multipleInsertingSeed($times);
             $this->caretUp(3);
             $monitor->track();
             $bar->advance($times);

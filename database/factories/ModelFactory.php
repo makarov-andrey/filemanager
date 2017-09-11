@@ -26,9 +26,11 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\File::class, function (Faker\Generator $faker) {
     return [
         'code' => str_random(64),
-        'name' => $faker->name,
+        'name' => $faker->realText($faker->numberBetween(10,100)) . $faker->fileExtension,
         'email' => $faker->safeEmail,
-        'visitor_hash' => bcrypt(str_random(32)),
-        'description' => $faker->text(1000)
+        'visitor_hash' => str_random(60),
+        'description' => $faker->realText($faker->numberBetween(10,1000)),
+        'created_at' => ($created_at = $faker->dateTimeBetween('- 2 years', 'now')),
+        'updated_at' => $faker->dateTimeBetween($created_at, 'now')
     ];
 });
