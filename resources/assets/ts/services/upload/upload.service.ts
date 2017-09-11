@@ -9,20 +9,12 @@ export class FileUploadService {
 
     constructor (private http: Http) { }
 
-    /**
-     * @param requestUrl
-     * @returns {Observable<{}>}
-     */
     public upload (requestUrl: string): Observable<{}> {
         return this.http
             .post(requestUrl, '')
             .map(FileUploadService.extractData);
     }
 
-    /**
-     * @param res
-     * @returns {any}
-     */
     private static extractData (res: Response): any {
         let body = res.json();
 

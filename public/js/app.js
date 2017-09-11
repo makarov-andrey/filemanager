@@ -106557,10 +106557,15 @@ var /** @type {?} */ __router_private__ = {
 Object.defineProperty(exports, "__esModule", { value: true });
 var page_not_found_component_1 = __webpack_require__(433);
 var upload_form_component_1 = __webpack_require__(434);
+var login_component_1 = __webpack_require__(991);
 exports.routes = [
     {
-        path: 'angular',
+        path: '',
         component: upload_form_component_1.UploadFormComponent
+    },
+    {
+        path: 'admin/login',
+        component: login_component_1.LoginComponent
     },
     {
         path: '**',
@@ -106696,6 +106701,49 @@ exports.FileUploadService = FileUploadService;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 982 */,
+/* 983 */,
+/* 984 */,
+/* 985 */,
+/* 986 */,
+/* 987 */,
+/* 988 */,
+/* 989 */,
+/* 990 */,
+/* 991 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(1);
+var LoginComponent = (function () {
+    function LoginComponent() {
+    }
+    LoginComponent = __decorate([
+        core_1.Component({
+            selector: 'state-template',
+            template: __webpack_require__(992)
+        })
+    ], LoginComponent);
+    return LoginComponent;
+}());
+exports.LoginComponent = LoginComponent;
+
+
+/***/ }),
+/* 992 */
+/***/ (function(module, exports) {
+
+module.exports = "First component!\n<!--\n<div class=\"col-md-6 centered\">\n    <h2>Select files for upload</h2>\n    <div class=\"row bottom-space\">\n        <form>\n            <div class=\"input-group\">\n                <input\n                        type=\"file\"\n                        id=\"filesUploader\"\n                        name=\"files[]\"\n                        multiple\n                        class=\"form-control\"\n                        (change)=\"filesSelectionHandler($event)\"\n                >\n            <span class=\"input-group-btn\">\n                <button\n                        type=\"submit\"\n                        class=\"btn btn-default\"\n                        (click)=\"filesUploadHandler($event)\"\n                >Upload</button>\n            </span>\n            </div>\n        </form>\n    </div>\n    <div class=\"row\">\n        <progress-bar *ngIf=\"progressBarVisibility\" [progress]=\"uploadProgress\"></progress-bar>\n    </div>\n    <div class=\"row\">\n        <h4 *ngIf=\"files.length\">Selected files:</h4>\n        <ul class=\"list-group\">\n            <li *ngFor=\"let file of files\" class=\"list-group-item\">\n                {{ file.name }}\n            </li>\n        </ul>\n    </div>\n</div>-->\n";
 
 /***/ })
 /******/ ]);

@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Mail;
 
 class FileController extends Controller
 {
-    public function uploadForm()
-    {
-        return view('upload');
-    }
-
     public function upload(Request $request)
     {
         $this->validate($request, [

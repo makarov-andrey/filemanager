@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function index()
     {
         return view('admin.index', [
-            'files' => File::paginate(30)
+            'files' => (new File)->paginate(30)
         ]);
     }
 
@@ -26,7 +26,7 @@ class AdminController extends Controller
     {
         $file->delete();
 
-        return redirect()->back()->with('success', Lang::get('file.successful_remove'));;
+        return redirect()->back()->with('success', Lang::get('file.successful_remove'));
     }
 
     public function editFileForm(File $file)
