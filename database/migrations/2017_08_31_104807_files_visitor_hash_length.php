@@ -25,7 +25,7 @@ class FilesVisitorHashLength extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('files', function (Blueprint $table) {
             $table->string('visitor_hash', 32)->change();
         });
     }
