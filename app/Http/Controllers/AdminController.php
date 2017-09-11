@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function index()
     {
         return view('admin.index', [
-            'files' => File::paginate(30)
+            'files' => (new File)->paginate(30)
         ]);
     }
 
