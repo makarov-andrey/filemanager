@@ -30,7 +30,9 @@ trait OverloadingRecursivelyDialogs
                 try {
                     return $this->{$matches[1]}(...$arguments);
                 } catch (ValidationException $exception) {
-                    $this->CLI()->error($exception->getMessage());
+                    foreach ($exception->validator->getMessageBag()->all() as $errorMessage) {
+                        $this->CLI()->error($errorMessage);
+                    }
                     return $this->{$method}(...$arguments);
                 }
             }

@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Console\Commands;
-
-use App\Console\Helpers\OverloadingRecursivelyDialogs;
+use Illuminate\Database\Seeder;
 use App\User;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Lang;
+use App\Console\Helpers\OverloadingRecursivelyDialogs;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Lang;
 
 /**
  * @method askEmailRecursively
  * @method askNameRecursively
  * @method askSecretPasswordRecursively
  */
-class CreateAdmin extends Command
+class AdminSeeder extends Seeder
 {
     use OverloadingRecursivelyDialogs;
 
@@ -39,14 +37,19 @@ class CreateAdmin extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function run()
     {
+        $this->CLI()->line('Create an administrator account so you can manage the app');
+        $this->handle();
+    }
+
+    public function handle () {
         $email = $this->askEmailRecursively();
         $this->user = User::where('email', $email)->first();
 
         if ($this->user) {
             if ($this->user->admin) {
-                $this->line(Lang::get('create_admin_command.already_admin'));
+                $this->CLI()->line(Lang::get('admin_seeder.already_admin'));
                 return;
             }
             if (!$this->confirmUpdateExisting()) {
@@ -63,39 +66,45 @@ class CreateAdmin extends Command
         $this->user->admin = true;
         $this->user->save();
 
-        $this->line(Lang::get('create_admin_command.success_saving'));
+        $this->CLI()->line(Lang::get('admin_seeder.success_saving'));
     }
 
     protected function askEmail()
     {
-        $email = $this->ask(Lang::get('create_admin_command.ask_email'));
-        Validator::make(['email' => $email], ['email' => 'required|email'])->validate();
+        $email = $this->CLI()->ask(Lang::get('admin_seeder.ask_email'));
+        Validator::make(['email' => $email], ['email' => 'required|email|max:255'])->validate();
         return $email;
     }
 
     protected function confirmUpdateExisting ()
     {
-        $text = Lang::get('create_admin_command.ask_update_existing', ['user' => $this->user->email]);
-        return $this->confirm($text, true);
+        $text = Lang::get('admin_seeder.ask_update_existing', ['user' => $this->user->email]);
+        return $this->CLI()->confirm($text, true);
     }
 
     protected function askName()
     {
-        $name = $this->ask(Lang::get('create_admin_command.ask_name'));
+        $name = $this->CLI()->ask(Lang::get('admin_seeder.ask_name'));
         Validator::make(['name' => $name], ['name' => 'max:255'])->validate();
         return $name;
     }
 
     protected function askSecretPassword()
     {
-        $password = $this->secret(Lang::get('create_admin_command.ask_password'));
-        Validator::make(['password' => $password], ['password' => 'min:8'])->validate();
-        $confirmedPassword = $this->secret(Lang::get('create_admin_command.ask_password_again'));
+        $password = $this->CLI()->secret(Lang::get('admin_seeder.ask_password'));
+        Validator::make(['password' => $password], ['password' => 'required|min:6'])->validate();
+
+        $passwordConfirmation = $this->CLI()->secret(Lang::get('admin_seeder.ask_password_again'));
+        Validator::make(
+            ['password' => $password, 'password_confirmation' => $passwordConfirmation],
+            ['password' => 'confirmed']
+        )->validate();
+
         return $password;
     }
 
     protected function CLI ()
     {
-        return $this;
+        return $this->command;
     }
 }
