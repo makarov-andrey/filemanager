@@ -2,5 +2,9 @@
 ```sh
 $ composer install
 $ artisan migrate
-$ artisan create-admin
+$ artisan db:seed
+```
+Для заполнения БД фейковыми файлами выполните
+ ```sh
+artisan db:seed --class=FilesTableFakesSeeder
 ```
