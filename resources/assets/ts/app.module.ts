@@ -1,17 +1,17 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import { routes } from './app.routing';
+import {routes} from './app.routing';
 
-import { AppComponent } from './app.component';
-import { PageNotFoundComponent } from "./components/page-not-found/page-not-found.component";
-import { NavbarComponent } from "./components/navbar/navbar.component";
-import { UploadFormComponent } from "./components/upload-form/upload-form.component";
+import {AppComponent} from './app.component';
+import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.component";
+import {NavigationComponent} from "./components/navigation/navigation.component";
+import {FileUploadFormComponent} from "./components/file-upload-form/file-upload-form.component";
 
-import { FileUploadService } from   "./services/file-upload/file-upload.service";
+import {FileService} from   "./services/file/file.service";
 
 import {APP_BASE_HREF} from '@angular/common';
 
@@ -25,18 +25,18 @@ import {APP_BASE_HREF} from '@angular/common';
     declarations: [
         AppComponent,
         PageNotFoundComponent,
-        UploadFormComponent,
-        NavbarComponent
+        FileUploadFormComponent,
+        NavigationComponent
     ],
     providers: [
-        FileUploadService,
+        FileService,
         {
             provide: APP_BASE_HREF,
-            useValue : '/'
+            useValue: '/'
         }
     ],
-    bootstrap:[
+    bootstrap: [
         AppComponent
     ]
 })
-export class AppModule {}
+export class AppModule { }

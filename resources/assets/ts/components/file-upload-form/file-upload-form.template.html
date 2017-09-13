@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="email" class="control-label">Email</label>
+                    <input [(ngModel)]="fileForm.email" name="email" type="email" id="email"
+                           class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="file" class="control-label">Файл</label>
+                    <input name="file" (change)="fileSelected($event.target.files.item(0))" type="file" id="file"
+                           class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="control-label">Описание</label>
+                    <textarea [(ngModel)]="fileForm.description" name="description" id="description"
+                              class="form-control" maxlength="1000"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-plus"></i> Добавить файл
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

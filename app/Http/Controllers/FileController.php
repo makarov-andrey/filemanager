@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 
 class FileController extends Controller
@@ -13,7 +12,7 @@ class FileController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email',
-            'file' => 'required|max:' . 1024 * 150,
+            'file' => 'required|min:1|max:' . 1024 * 150,
             'description' => 'max:1000'
         ]);
 
@@ -28,7 +27,7 @@ class FileController extends Controller
             $m->to($request->email)->subject(Lang::get('mail.file_subject'));
         });
 
-        return redirect()->back()->with('success', Lang::get('file.success_loading'));
+        return response()->json(['success' => true]);
     }
 
     public function download(string $visitorHash, string $code)

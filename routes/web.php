@@ -2,12 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'AngularController@entryPoint');
+//Route::prefix('backend')->group(function(){
+//    Route::post('file', 'FileController@upload');
+//});
 
-Route::group(['prefix' => 'backend'], function(){
-    Route::post('/load', 'FileController@upload');
-
-});
+Route::post('/backend/file', 'FileController@upload');
 
 Route::get('/uploaded/{visitor_hash}/{code}', 'FileController@download')->name('file.download');
 
@@ -16,5 +15,8 @@ Route::get('/admin/file/{file}', 'AdminController@editFileForm')->name('admin.fi
 Route::post('/admin/file/{file}', 'AdminController@editFile')->name('admin.file.edit');
 Route::delete('/admin/file/{file}', 'AdminController@destroy')->name('admin.file.remove');
 
+Route::get('admin/login', 'Auth\LoginController@showLoginForm');
 Route::post('admin/login', 'Auth\LoginController@login');
 Route::post('admin/logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::any('/', 'AngularController@entryPoint')->name('index');
