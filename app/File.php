@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Helpers\RowsCountOverride;
+use App\TemporaryStorage\TemporaryStorage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +17,13 @@ class File extends Model
     public $incrementing = false;
 
     /**
+     * Код файла во временном файловом хранилище
+     *
+     * @var string
+     */
+    public $temporaryFileCode;
+
+    /**
      * Путь до файлов в хранилище
      */
     const STORAGE_PATH = 'files/';
@@ -26,14 +34,15 @@ class File extends Model
     protected $uploadedFile;
 
     /**
-     * переназначить файл
+     * сохранить файл из реквеста
      *
      * @param UploadedFile $uploadedFile
      */
-    public function resetFile(UploadedFile $uploadedFile)
+    public function correlateWithUploadedFile(UploadedFile $uploadedFile)
     {
         $this->uploadedFile = $uploadedFile;
         $this->name = $uploadedFile->getClientOriginalName();
+        return $this;
     }
 
     /**
@@ -73,6 +82,9 @@ class File extends Model
         }
         if (empty($this->visitor_hash)) {
             $this->visitor_hash = bcrypt(session()->getId());
+        }
+        if ($this->temporaryFileCode) {
+            TemporaryStorage::replace($this->temporaryFileCode, $this->path());
         }
         if ($this->uploadedFile) {
             $this->uploadedFile->storeAs(static::STORAGE_PATH, $this->code);

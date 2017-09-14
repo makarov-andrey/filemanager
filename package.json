@@ -18,7 +18,8 @@
     "jquery": "^3.1.1",
     "laravel-mix": "^1.0",
     "lodash": "^4.17.4",
-    "vue": "^2.1.10"
+    "ts-loader": "^2.3.6",
+    "typescript": "^2.5.2"
   },
   "dependencies": {
     "@angular/common": "~2.4.0",
@@ -30,11 +31,10 @@
     "@angular/platform-browser-dynamic": "~2.4.0",
     "@angular/router": "~3.4.0",
     "angular-in-memory-web-api": "~0.2.4",
-    "systemjs": "0.19.40",
-    "ts-loader": "^2.3.6",
-    "typescript": "^2.5.2",
     "core-js": "^2.4.1",
+    "ng2-validation": "^4.2.0",
     "rxjs": "5.0.1",
+    "systemjs": "0.19.40",
     "zone.js": "^0.7.4"
   }
 }

@@ -1,0 +1,58 @@
+.mt-10 {
+  margin-top: 10px;
+}
+
+input.error {
+  border-color: $brand-danger;
+}
+
+input.ng-invalid {
+  &.ng-touched,
+  &.ng-dirty {
+    @extend input.error;
+  }
+}
+
+.loading-animation {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 50px;
+  height: 15px;
+  & > span {
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    &:nth-child(even) {
+      animation: loading-animation-even 1.5s infinite linear;
+    }
+    &:nth-child(odd) {
+      animation: loading-animation-odd 1.5s infinite linear;
+    }
+  }
+}
+
+@keyframes loading-animation-even {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes loading-animation-odd {
+  0% {
+    transform: scale(0.6);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.6);
+  }
+}

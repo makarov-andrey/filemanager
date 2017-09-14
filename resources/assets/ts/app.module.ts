@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
@@ -11,15 +11,18 @@ import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.
 import {NavigationComponent} from "./components/navigation/navigation.component";
 import {FileUploadFormComponent} from "./components/file-upload-form/file-upload-form.component";
 
-import {FileService} from   "./services/file/file.service";
+import {FileService} from   "./services/file.service";
 
 import {APP_BASE_HREF} from '@angular/common';
+import {CsrfAuthorizedHttpService} from "./services/csrf-authorized-http.service";
+import {CustomFormsModule} from "ng2-validation";
 
 @NgModule({
     imports: [
         BrowserModule,
-        FormsModule,
+        ReactiveFormsModule,
         HttpModule,
+        CustomFormsModule,
         RouterModule.forRoot(routes)
     ],
     declarations: [
@@ -30,6 +33,7 @@ import {APP_BASE_HREF} from '@angular/common';
     ],
     providers: [
         FileService,
+        CsrfAuthorizedHttpService,
         {
             provide: APP_BASE_HREF,
             useValue: '/'

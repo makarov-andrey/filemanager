@@ -1,31 +1,63 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <form (ngSubmit)="onSubmit()">
+            <form *ngIf="!posted" [formGroup]="fileForm" (submit)="onSubmit()" novalidate>
                 <div class="form-group">
                     <label for="email" class="control-label">Email</label>
-                    <input [(ngModel)]="fileForm.email" name="email" type="email" id="email"
-                           class="form-control" required>
+                    <input formControlName="email" type="email" id="email" class="form-control">
+                    <div *ngIf="fileForm.controls.email.invalid && (fileForm.controls.email.dirty || fileForm.controls.email.touched)" class="text-danger">
+                        <span *ngIf="fileForm.controls.email.errors.required">
+                            Email нужно ввести обязательно.
+                        </span>
+                        <span *ngIf="fileForm.controls.email.errors.email">
+                            Неправильный формат Email.
+                        </span>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="file" class="control-label">Файл</label>
-                    <input name="file" (change)="fileSelected($event.target.files.item(0))" type="file" id="file"
-                           class="form-control" required>
+                    <input type="file" id="file" class="form-control"
+                           (change)="uploadFile($event.target.files.item(0))"
+                           [ngClass]="{'error': fileInvalid}">
+                    <input type="hidden" formControlName="fileCode">
+                    <input type="hidden" formControlName="fileName">
+                    <div *ngIf="fileInvalid" class="text-danger">
+                        Файл должен быть размером от {{ minFileSize / 1024 / 1024 }} до {{ maxFileSize / 1024 / 1024 }} мегабайт.
+                    </div>
+                    <div *ngIf="uploadingStarted" class="mt-10">
+                        <span *ngIf="!uploaded">Прогресс:</span>
+                        <span *ngIf="uploaded" class="success">Файл был успешно загружен</span>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-animated active"
+                                 [ngClass]="{'progress-bar-success': uploaded, 'progress-bar-striped': !uploaded}"
+                                 [ngStyle]="{'width.%': uploadProgress}">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="description" class="control-label">Описание</label>
-                    <textarea [(ngModel)]="fileForm.description" name="description" id="description"
-                              class="form-control" maxlength="1000"></textarea>
+                    <textarea formControlName="description" id="description" class="form-control"
+                              maxlength="1000"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">
-                        <i class="fa fa-plus"></i> Добавить файл
+                    <button class="btn btn-success" [disabled]="buttonDisabled">
+                        <span *ngIf="!buttonDisabled">Добавить файл</span>
+                        <span *ngIf="buttonDisabled" class="loading-animation">
+                            <span></span><span></span><span></span>
+                        </span>
                     </button>
                 </div>
             </form>
+            <div *ngIf="posted" class="alert alert-success text-center">
+                Файл успешно добавлен. Через некоторое время на вашу почту придет письмо со ссылкой на скачивание.
+                <div class="mt-10">
+                    <button class="btn btn-success" (click)="uploadOneMore()">Загрузить еще файл</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

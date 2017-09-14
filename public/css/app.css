@@ -8350,3 +8350,111 @@ button.close {
   }
 }
 
+.mt-10 {
+  margin-top: 10px;
+}
+
+input.error,
+input.ng-invalid.ng-touched,
+input.ng-invalid.ng-dirty {
+  border-color: #bf5329;
+}
+
+.loading-animation {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 50px;
+  height: 15px;
+}
+
+.loading-animation > span {
+  border-radius: 100%;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+}
+
+.loading-animation > span:nth-child(even) {
+  -webkit-animation: loading-animation-even 1.5s infinite linear;
+          animation: loading-animation-even 1.5s infinite linear;
+}
+
+.loading-animation > span:nth-child(odd) {
+  -webkit-animation: loading-animation-odd 1.5s infinite linear;
+          animation: loading-animation-odd 1.5s infinite linear;
+}
+
+@-webkit-keyframes loading-animation-even {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes loading-animation-even {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@-webkit-keyframes loading-animation-odd {
+  0% {
+    -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+  }
+
+  50% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+
+  100% {
+    -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+  }
+}
+
+@keyframes loading-animation-odd {
+  0% {
+    -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+  }
+
+  50% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+
+  100% {
+    -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+  }
+}
+
