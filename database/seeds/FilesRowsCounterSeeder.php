@@ -13,8 +13,12 @@ class FilesRowsCounterSeeder extends Seeder
      */
     public function run()
     {
-        $filesRowsCounter = new RowsCount;
-        $filesRowsCounter->table_name = (new File)->getTable();
+        $tableName = (new File)->getTable();
+        $filesRowsCounter = RowsCount::find($tableName);
+        if (!$filesRowsCounter) {
+            $filesRowsCounter = new RowsCount;
+            $filesRowsCounter->table_name = (new File)->getTable();
+        }
         $filesRowsCounter->up();
     }
 }

@@ -24,10 +24,11 @@ trait RowsCountOverride
      * сам этот метод является почти полной копией последнего, за исключением метода
      * получения общего количества записей. Получает последнее с помощью модели \App\RowsCount
      *
+     * @see \Illuminate\Database\Eloquent\Builder::paginate()
      * @param int $perPage
      * @param array $columns
      * @param string $pageName
-     * @param null $page
+     * @param int|null $page
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Pagination\LengthAwarePaginator
      */
     public function paginate ($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null) {
@@ -51,7 +52,7 @@ trait RowsCountOverride
     }
 
     /**
-     * @parent \Illuminate\Database\Query\Builder
+     * @see \Illuminate\Database\Query\Builder::count()
      * @param string $columns
      * @return mixed
      */
