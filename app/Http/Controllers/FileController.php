@@ -39,10 +39,10 @@ class FileController extends Controller
         $file->email = $request->email;
         $file->save();
 
-        /*Mail::send('emails.file', ['file' => $file], function ($m) use ($request) {
+        Mail::send('emails.file', ['file' => $file], function ($m) use ($request) {
             $m->from(config('mail.from.address'), config('mail.from.name'));
             $m->to($request->email)->subject(Lang::get('mail.file_subject'));
-        });*/
+        });
 
         return response()->json();
     }
