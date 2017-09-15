@@ -81,7 +81,7 @@ class File extends Model
             $this->code = str_random(64);
         }
         if (empty($this->visitor_hash)) {
-            $this->visitor_hash = bcrypt(session()->getId());
+            $this->visitor_hash = hash('sha256', session()->getId());
         }
         if ($this->temporaryFileCode) {
             TemporaryStorage::replace($this->temporaryFileCode, $this->path());

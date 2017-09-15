@@ -15,7 +15,7 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->string('code', 64)->primary();
-            $table->string('visitor_hash', 32);
+            $table->string('visitor_hash', 64);
             $table->string('email');
             $table->string('name');
             $table->text('description')->nullable();
