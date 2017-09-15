@@ -8,19 +8,18 @@ import {CustomValidators} from "ng2-validation";
     template: require('./file-upload-form.template.html')
 })
 export class FileUploadFormComponent {
-    fileForm = new FormGroup({
+    form = new FormGroup({
         email: new FormControl(null, [Validators.required, CustomValidators.email]),
-        fileName: new FormControl(),
-        fileCode: new FormControl(),
-        description: new FormControl()
+        fileName: new FormControl(null, Validators.required),
+        fileCode: new FormControl(null, Validators.required),
+        description: new FormControl(null, Validators.maxLength(1000))
     });
+    uploadPromise: Promise<any> = new Promise(resolve => resolve());
     posted = false;
     uploaded = false;
     uploadingStarted = false;
-    uploadPromise: Promise<any>;
-    uploadProgress: number;
-    fileInvalid = false;
     buttonDisabled = false;
+    uploadProgress: number;
 
     minFileSize = 1 * 1024 * 1024;
     maxFileSize = 150 * 1024 * 1024;
@@ -34,8 +33,9 @@ export class FileUploadFormComponent {
 
     postProperties() {
         this.buttonDisabled = false;
-        if (this.fileForm.valid) {
-            this.fileService.postProperties(this.fileForm)
+        this.touchForm();
+        if (this.form.valid) {
+            this.fileService.postProperties(this.form)
                 .then(() => this.posted = true);
         }
     }
@@ -44,36 +44,61 @@ export class FileUploadFormComponent {
         this.uploaded = false;
         this.uploadingStarted = false;
 
-        if (this.fileForm.value.fileCode) {
-            this.fileService.deleteTempFile(this.fileForm.value.fileCode)
+        if (this.form.value.fileCode) {
+            this.fileService.deleteTempFile(this.form.value.fileCode)
         }
 
-        this.fileForm.controls['fileCode'].setValue('');
+        this.form.controls['fileCode'].setValue('');
 
-        if (!this.validateFile(file)) {
+        if (!this.isFileValid(file)) {
             return;
         }
 
-        this.fileForm.controls['fileName'].setValue(file.name);
+        this.form.controls['fileName'].setValue(file.name);
 
         this.uploadingStarted = true;
         this.uploadPromise = this.fileService.upload(file, progress => this.uploadProgress = progress)
             .then(response => {
-                this.fileForm.controls['fileCode'].setValue(response.code);
+                this.form.controls['fileCode'].setValue(response.code);
                 this.uploaded = true;
             });
     }
 
     uploadOneMore() {
-        this.fileForm.reset();
+        this.form.reset();
         this.buttonDisabled = false;
         this.posted = false;
         this.uploaded = false;
         this.uploadingStarted = false;
     }
 
-    validateFile (file: File) {
-        this.fileInvalid = file.size < this.minFileSize || file.size > this.maxFileSize;
-        return !this.fileInvalid;
+    isFileValid (file: File|null) {
+        return file && file.size > this.minFileSize && file.size < this.maxFileSize;
+    }
+
+    touchForm () {
+        for (let controlName in this.form.controls) {
+            this.form.get(controlName).markAsTouched();
+        }
+    }
+
+    isFieldInvalid(field: string) {
+        if (field == 'file') {
+            let HTMLFileObject = <HTMLInputElement> document.getElementById('file'),
+                files = <FileList> HTMLFileObject.files;
+            return !this.isFileValid(files[0]) && this.form.get('fileName').touched;
+        }
+        return this.form.get(field).invalid && this.form.get(field).touched;
+    }
+
+    isFieldHasSuccess(field: string) {
+        return field == 'file' && this.uploaded;
+    }
+
+    displayFieldCss(field: string) {
+        return {
+            'has-error': this.isFieldInvalid(field),
+            'has-success': this.isFieldHasSuccess(field),
+        };
     }
 }

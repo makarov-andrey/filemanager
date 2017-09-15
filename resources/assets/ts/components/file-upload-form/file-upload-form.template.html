@@ -1,46 +1,43 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <form *ngIf="!posted" [formGroup]="fileForm" (submit)="onSubmit()" novalidate>
-                <div class="form-group">
+            <form class="form-horizontal" *ngIf="!posted" [formGroup]="form" (submit)="onSubmit()" novalidate>
+                <div class="form-group" [ngClass]="displayFieldCss('email')">
                     <label for="email" class="control-label">Email</label>
                     <input formControlName="email" type="email" id="email" class="form-control">
-                    <div *ngIf="fileForm.controls.email.invalid && (fileForm.controls.email.dirty || fileForm.controls.email.touched)" class="text-danger">
-                        <span *ngIf="fileForm.controls.email.errors.required">
-                            Email нужно ввести обязательно.
-                        </span>
-                        <span *ngIf="fileForm.controls.email.errors.email">
-                            Неправильный формат Email.
-                        </span>
-                    </div>
+                    <span class="help-inline text-danger" *ngIf="isFieldInvalid('email')">
+                        Неправильный формат Email.
+                    </span>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" [ngClass]="displayFieldCss('file')">
                     <label for="file" class="control-label">Файл</label>
-                    <input type="file" id="file" class="form-control"
-                           (change)="uploadFile($event.target.files.item(0))"
-                           [ngClass]="{'error': fileInvalid}">
-                    <input type="hidden" formControlName="fileCode">
-                    <input type="hidden" formControlName="fileName">
-                    <div *ngIf="fileInvalid" class="text-danger">
-                        Файл должен быть размером от {{ minFileSize / 1024 / 1024 }} до {{ maxFileSize / 1024 / 1024 }} мегабайт.
-                    </div>
-                    <div *ngIf="uploadingStarted" class="mt-10">
-                        <span *ngIf="!uploaded">Прогресс:</span>
-                        <span *ngIf="uploaded" class="success">Файл был успешно загружен</span>
-                        <div class="progress">
+                    <input type="file" id="file" class="form-control" (change)="uploadFile($event.target.files.item(0))">
+                    <span class="help-inline text-danger" *ngIf="isFieldInvalid('file')">
+                        Файл должен быть размером от {{minFileSize / 1024 /1024}} до {{maxFileSize / 1024 /1024}} мегабайт
+                    </span>
+                    <span *ngIf="uploaded" class="text-success">Файл был успешно загружен</span>
+                    <div *ngIf="uploadingStarted && !uploaded" class="mt-10">
+                        Загрузка...
+                        <div class="progress" *ngIf="!uploaded">
                             <div class="progress-bar progress-bar-animated active"
                                  [ngClass]="{'progress-bar-success': uploaded, 'progress-bar-striped': !uploaded}"
                                  [ngStyle]="{'width.%': uploadProgress}">
                             </div>
                         </div>
                     </div>
+
+                    <input type="hidden" formControlName="fileCode">
+                    <input type="hidden" formControlName="fileName">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" [ngClass]="displayFieldCss('description')">
                     <label for="description" class="control-label">Описание</label>
                     <textarea formControlName="description" id="description" class="form-control"
                               maxlength="1000"></textarea>
+                    <span class="help-inline text-danger" *ngIf="isFieldInvalid('description')">
+                        Максимум 1000 символов
+                    </span>
                 </div>
 
                 <div class="form-group">
