@@ -21,7 +21,7 @@ export class FileUploadFormComponent {
     buttonDisabled = false;
     uploadProgress: number;
 
-    minFileSize = 1 * 1024 * 1024;
+    minFileSize = 100 * 1024 * 1024;
     maxFileSize = 150 * 1024 * 1024;
 
     constructor(private fileService: FileService) { }

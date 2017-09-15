@@ -8452,3 +8452,14 @@ button.close {
   }
 }
 
+.page404 {
+  margin-top: 100px;
+  font-size: 200px;
+  line-height: 80px;
+  text-align: center;
+}
+
+.page404 > span {
+  font-size: 30px;
+}
+

@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Mail;
 
 class FileController extends Controller
 {
-    const MIN_FILE_SIZE = 1;
-    const MAX_FILE_SIZE = 1024 * 150;
+    const MIN_FILE_SIZE = 100 * 1024; //100 mb
+    const MAX_FILE_SIZE = 150 * 1024; //150 mb
 
     public function upload(Request $request)
     {
