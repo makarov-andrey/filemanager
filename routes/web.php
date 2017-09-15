@@ -21,6 +21,4 @@ Route::post('admin/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/', 'AngularController@entryPoint')->name('index');
 
-Route::get('/test', function () {
-    \App\TemporaryStorage\TemporaryStorage::removeOldFiles();
-});
+Route::get('{any}', 'AngularController@entryPoint')->where('any', '.*');
